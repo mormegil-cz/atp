@@ -9,9 +9,9 @@
 
 namespace App\Model;
 
-use Nette\Object;
+class ZeroSevenZeroTableModel {
 
-class ZeroSevenZeroTableModel extends Object {
+	use \Nette\SmartObject;
 
 	public function getItemsTable(){
 		return [

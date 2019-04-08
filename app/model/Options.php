@@ -12,7 +12,9 @@ namespace App\Model;
 
 use Nette\Utils\Arrays;
 
-class Options extends \Nette\Object{
+class Options {
+	use \Nette\SmartObject;
+
 	private  $menu;
 	private  $versions;
 	private  $resDir;

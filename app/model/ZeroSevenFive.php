@@ -12,8 +12,8 @@ namespace App\Model;
 
 use Nette\Database\SqlLiteral;
 
-class ZeroSevenZeroModel {
-	use \Nette\SmartObject;
+class ZeroSevenFiveModel {
+	use  \Nette\SmartObject;
 
 	/** @var \Nette\Database\Context */
 	protected $database;
