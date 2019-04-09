@@ -19,7 +19,7 @@ use Nette\Utils\Json;
 use Tracy\Debugger;
 
 class ZeroSevenFivePresenter extends BasePresenter{
-	public $VERSION = '0.7.0';
+	public $VERSION = '0.7.5';
 
 	/** @var \App\Model\ZeroSevenFiveModel @inject */
 	public $model;
@@ -87,7 +87,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 		$this->template->version = $this->VERSION;
 		$this->template->map = $map;
 
-		$worldMapFile = $this->options->resDir.'/'.$this->VERSION.'/xml/worldmap.xml';
+		$worldMapFile = $this->options->getResDir().'/'.$this->VERSION.'/xml/worldmap.xml';
 		$worldMap = simplexml_load_file($worldMapFile);
 //		$segments = $worldMap->xpath("/worldmap/segment");
 //

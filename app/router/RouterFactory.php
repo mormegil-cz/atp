@@ -26,6 +26,10 @@ class RouterFactory
 		$router[] = new Route('0.7.0/<action>.php', 'ZeroSevenZero:default');
 		//$router[] = new Route('0.7.2/<action>.php', 'ZeroSevenTwo:default');
 		$router[] = new Route('<presenter>/<action>[/<id>].php', 'ZeroSevenZero:default');
+
+		$router[] = new Route('0.7.5/map/[<map>.html]','ZeroSevenFive:map');
+		$router[] = new Route('0.7.5/<action>.php', 'ZeroSevenFive:default');
+		$router[] = new Route('<presenter>/<action>[/<id>].php', 'ZeroSevenFive:default');
 		return $router;
 	}
 

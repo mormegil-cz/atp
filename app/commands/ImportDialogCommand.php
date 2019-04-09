@@ -32,7 +32,7 @@ class ImportDialogCommand extends Command{
 
 	    $version = $input->getArgument('version');
 	    if (!$version) $version = $this->options->getDefaultVersion();
-		$this->model = $this->getHelper('container')->getByType('App\Model\\'.$this->options->getVersionName($version));
+		$this->model = $this->getHelper('container')->getByType($this->options->getModelName($version));
 
 	    $files = $input->getArgument('files');
 	    if (!$files) $files = 'conversationlist*.json';

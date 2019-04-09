@@ -48,7 +48,7 @@ class CreateMapFileCommand extends Command{
 		    $bar->setMessage($file->getFilename());
 		    $bar->advance();
 
-		    $presenter = $this->app->presenterFactory->createPresenter($this->options->getVersionName($version));
+		    $presenter = $this->app->getPresenterFactory()->createPresenter($this->options->getVersionName($version));
 		    $presenter->autoCanonicalize = FALSE;
 		    $request = new \Nette\Application\Request($this->options->getVersionName($version), 'GET', array('action' => 'map','map' => $file->getBasename('.tmx')));
 		    $response = $presenter->run($request);

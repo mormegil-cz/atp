@@ -12,6 +12,13 @@ namespace App\Model;
 
 use Nette\Utils\Arrays;
 
+/**
+ * @property array $menu
+ * @property array $versions
+ * @property string $resDir
+ * @property string $renderDir
+ * @property string $wwwDir
+ */
 class Options {
 	use \Nette\SmartObject;
 
@@ -64,5 +71,9 @@ class Options {
 
 	public function getWwwDir(){
 		return $this->wwwDir;
+	}
+
+	public function getModelName($version){
+		return 'App\\Model\\'.$this->getVersionName($version).'Model';
 	}
 }

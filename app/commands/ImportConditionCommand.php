@@ -31,7 +31,7 @@ class ImportConditionCommand extends Command{
 
 	    $version = $input->getArgument('version');
 	    if (!$version) $version = $this->options->getDefaultVersion();
-		$this->model = $this->getHelper('container')->getByType('App\Model\\'.$this->options->getVersionName($version));
+		$this->model = $this->getHelper('container')->getByType($this->options->getModelName($version));
 
 	    $files = $input->getArgument('files');
 	    if (!$files) $files = 'actorconditions*.json';
@@ -67,6 +67,7 @@ class ImportConditionCommand extends Command{
 			    $item = ParseUtils::JsonArray($item);
 			    $item['filename'] = $file->getFilename();
 
+				$output->writeln($file->getFilename());
 			    $this->model->getConditions()->insert($item);
 		    }
 		    $bar->finish();

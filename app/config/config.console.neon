@@ -18,4 +18,5 @@ console:
 
 		- App\Console\RenderPagesCommand
 
-	url: http://andorstrail.irkalla.cz/
+#	url: http://andorstrail.irkalla.cz/
+	url: http://localhost/atp/

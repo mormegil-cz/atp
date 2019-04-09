@@ -26,6 +26,7 @@ parameters:
 	resDir : %wwwDir%/../res
 
 	version:
+		0.7.0: ZeroSevenZero
 		0.7.5: ZeroSevenFive
 
 php:
@@ -33,11 +34,19 @@ php:
 
 
 database:
-	0.7.5:
-		dsn:        "%database.driver%:host=%database.host%;dbname=at-0-7-5"
+	0.7.0:
+		dsn:        "%database.driver%:host=%database.host%;dbname=at070"
 		user:       %database.user%
 		password:   %database.password%
 		reflection: discovered
+		autowired:  false
+
+	0.7.5:
+		dsn:        "%database.driver%:host=%database.host%;dbname=at075"
+		user:       %database.user%
+		password:   %database.password%
+		reflection: discovered
+		autowired:  false
 
 
 application:
@@ -46,16 +55,17 @@ application:
 		*: App\*Module\Presenters\*Presenter
 
 session:
-		expiration: 14 days
-		autoStart: true
+	expiration: 14 days
+	autoStart: true
 
 
 services:
 
-	- App\Model\ZeroSevenZeroModel
-	- App\Model\ZeroSevenFiveModel
+	- App\Model\ZeroSevenZeroModel(@database.0.7.0.context)
+	- App\Model\ZeroSevenFiveModel(@database.0.7.5.context)
 
 	- App\Model\ZeroSevenZeroTableModel
+	- App\Model\ZeroSevenFiveTableModel
 
 	- App\Model\Options(%menu%,%version%,%resDir%,%renderDir%,%wwwDir%)
 
