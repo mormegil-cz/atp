@@ -67,7 +67,7 @@
           {if $item->droplistID}
             <tr n:foreach="$item->ref('droplist')->related('droplist_item') as $dropItem">
                 <td>
-                    {if $dropItem->ref('item')->displaytype == quest}
+                    {if $dropItem->ref('itemID')->displaytype == quest}
                         <a n:href="questlist#{$dropItem->itemID}" class="at-icon quest">{$dropItem->ref('item')->iconID|ATIcon}</a>
                     {elseif $dropItem->ref('item')->ref('category')->actionType == use}
                         <a n:href="consumablelist#{$dropItem->itemID}" class="at-icon">{$dropItem->ref('item')->iconID|ATIcon}</a>
@@ -86,7 +86,7 @@
              <td colspan="3" class="left">{$questMonster->ref('quest')->name}</td>
             </tr>
           </table>
-          <p class="left location" n:if="$item->spawnGroup">
+          <p class="left location" n:if="$item->spawn">
             {$map_icon|ATIcon}
             {foreach $item->ref('spawn')->related('map_spawn')->fetchPairs('map') as $mapSpawn}
                 <a target="_blank" n:href="map#{$item->id} $mapSpawn->map">{$mapSpawn->ref('map')->name}</a>

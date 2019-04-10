@@ -38,7 +38,9 @@ class ImportMonsterCommand extends Command{
 
 	    $inDir = $this->options->resDir.'/'.$version.'/raw/';
 
-	    $finder = Finder::findFiles($files)->in($inDir);
+		$finder = Finder::findFiles($files)
+			->exclude('*_debug*')
+			->in($inDir);
 
 	    $fileCount = iterator_count($finder->getIterator());
 
@@ -59,15 +61,14 @@ class ImportMonsterCommand extends Command{
 
 		    foreach ($items as $item) {
 			    $bar->advance();
-				//$item['spawnGroup'] = Arrays::get($item,'spawnGroup',$item['id']);
-				//$item['spawnGroup'] = [$item['spawnGroup']];
-				$spawnGroup = $item['spawnGroup'];
-				unset($item['spawnGroup']);
-				$item['spawn'] = $spawnGroup;
+				if (isset($item['spawnGroup'])) {
+					$spawnGroup = $item['spawnGroup'];
+					unset($item['spawnGroup']);
+					$item['spawn'] = $spawnGroup;
 
-				//if (!$this->model->getSpawns()->get($item['spawnGroup'])) $this->model->getSpawns()->insert($item['spawnGroup']);
-				if (!$this->model->getSpawns()->get($spawnGroup)) {
-					$this->model->getSpawns()->insert(['id' => $spawnGroup]);
+					if (!$this->model->getSpawns()->get($spawnGroup)) {
+						$this->model->getSpawns()->insert(['id' => $spawnGroup]);
+					}
 				}
 
 			    ParseUtils::expandArrayKey($item,'attackDamage');
@@ -85,7 +86,7 @@ class ImportMonsterCommand extends Command{
 				$this->model->getCharacters()->insert($item);
 
 		        foreach($conditions as $condition){
-				    $condition['monster'] = $item['id'];
+					$condition['monster'] = $item['id'];
 				    $this->model->getCharacterConditions()->insert($condition);
 			    }
 			}

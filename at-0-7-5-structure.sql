@@ -490,6 +490,7 @@ CREATE TABLE `monster` (
   `maxAP` tinyint(4) NOT NULL DEFAULT '10',
   `size` varchar(5) COLLATE utf8_bin NOT NULL DEFAULT '1',
   `spawn` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `faction` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `iconID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `phraseID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `droplistID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
@@ -522,18 +523,18 @@ DROP TABLE IF EXISTS `monster_condition`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `monster_condition` (
-  `monster_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  `condition_id` varchar(20) COLLATE utf8_bin NOT NULL,
+  `monster` varchar(30) COLLATE utf8_bin NOT NULL,
+  `condition` varchar(20) COLLATE utf8_bin NOT NULL,
   `event` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `target` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `magnitude` tinyint(3) unsigned DEFAULT NULL,
   `duration` tinyint(3) unsigned DEFAULT NULL,
   `chance` tinyint(3) unsigned DEFAULT NULL,
-  PRIMARY KEY (`monster_id`,`condition_id`),
-  KEY `condition_id` (`condition_id`),
-  KEY `monster_id` (`monster_id`),
-  CONSTRAINT `monster_condition_ibfk_3` FOREIGN KEY (`monster_id`) REFERENCES `monster` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `monster_condition_ibfk_4` FOREIGN KEY (`condition_id`) REFERENCES `condition` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`monster`,`condition`),
+  KEY `condition` (`condition`),
+  KEY `monster` (`monster`),
+  CONSTRAINT `monster_condition_ibfk_3` FOREIGN KEY (`monster`) REFERENCES `monster` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `monster_condition_ibfk_4` FOREIGN KEY (`condition`) REFERENCES `condition` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -638,7 +639,9 @@ CREATE TABLE `quest_monster` (
   `filename` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`monster_id`,`quest_id`),
   KEY `monster_id` (`monster_id`),
-  KEY `quest_id` (`quest_id`)
+  KEY `quest_id` (`quest_id`),
+  CONSTRAINT `quest_monster_ibfk_3` FOREIGN KEY (`monster_id`) REFERENCES `monster` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quest_monster_ibfk_4` FOREIGN KEY (`quest_id`) REFERENCES `quest` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

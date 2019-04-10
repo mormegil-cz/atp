@@ -71,7 +71,7 @@ class ImportQuestCommand extends Command{
 
 			    if ($stages) {
 			    	foreach($stages as $stage) {
-					    $stage['quest'] = $quest['id'];
+					    $stage['quest_id'] = $quest['id'];
 						$this->model->getQuestStages()->insert($stage);
 					}
 			    }

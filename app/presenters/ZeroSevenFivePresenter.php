@@ -55,7 +55,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 		$this->template->colums = $this->tableModel->getMonstersColumns();
 		$this->template->tables = $this->tableModel->getMonstersTable();
 
-		$this->template->monsters = $this->model->getMonsters()->order('spawnGroup');
+		$this->template->monsters = $this->model->getMonsters()->order('spawn');
 
 //		$monsters = $this->model->getCharacters()->where('NOT attackDamageMin',NULL)->order('spawnGroup');
 //		$this->template->monsters = $monsters;
