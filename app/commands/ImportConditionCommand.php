@@ -38,7 +38,9 @@ class ImportConditionCommand extends Command{
 
 	    $inDir = $this->options->resDir.'/'.$version.'/raw/';
 
-	    $finder = Finder::findFiles($files)->in($inDir);
+		$finder = Finder::findFiles($files)
+			->exclude('*_debug*')
+			->in($inDir);
 
 	    $fileCount = iterator_count($finder->getIterator());
 
@@ -48,7 +50,6 @@ class ImportConditionCommand extends Command{
 		$itemCount = 0;
 	    foreach($finder as $file){
 			$filename = $file->getFilename();
-			if (strpos($filename, '_debug') !== FALSE) continue;
 
 		    $json = file_get_contents($inDir.$filename);
 		    $items = Json::decode($json,Json::FORCE_ARRAY);

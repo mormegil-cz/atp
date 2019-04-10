@@ -66,7 +66,8 @@ class ImportItemCommand extends Command{
 		}
 
 	    $finder = Finder::findFiles($files)
-		    ->exclude('itemlist_pre0610_unused.json')
+			->exclude('itemlist_pre0610_unused.json')
+			->exclude('*_debug*')
 		    ->in($inDir);
 
 		$itemCount = 0;
@@ -94,6 +95,14 @@ class ImportItemCommand extends Command{
 				    if (isset($item['hitEffect']['conditionsSource']))
 					    $conditions['hitSource'] = $item['hitEffect']['conditionsSource'];
 		        }
+
+			    if (isset($item['hitReceivedEffect'])){
+				    if(isset($item['hitReceivedEffect']['conditionsTarget']))
+					    $conditions['hitReceivedTarget'] = $item['hitReceivedEffect']['conditionsTarget'];
+
+				    if (isset($item['hitReceivedEffect']['conditionsSource']))
+					    $conditions['hitReceivedSource'] = $item['hitReceivedEffect']['conditionsSource'];
+			    }
 
 			    if (isset($item['killEffect'])){
 				    if(isset($item['killEffect']['conditionsTarget']))

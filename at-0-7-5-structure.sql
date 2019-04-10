@@ -365,6 +365,7 @@ CREATE TABLE `item` (
   `hitEffect` text COLLATE utf8_bin,
   `killEffect` text COLLATE utf8_bin,
   `useEffect` text COLLATE utf8_bin,
+  `hitReceivedEffect` text COLLATE utf8_bin,
   `description` text COLLATE utf8_bin,
   `filename` varchar(40) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
@@ -390,6 +391,7 @@ DROP TABLE IF EXISTS `item_condition`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `item_condition` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
   `item` varchar(30) COLLATE utf8_bin NOT NULL,
   `condition` varchar(20) COLLATE utf8_bin NOT NULL,
   `event` varchar(20) COLLATE utf8_bin DEFAULT NULL,
@@ -397,7 +399,7 @@ CREATE TABLE `item_condition` (
   `magnitude` tinyint(3) unsigned DEFAULT NULL,
   `duration` tinyint(3) unsigned DEFAULT NULL,
   `chance` tinyint(3) unsigned DEFAULT NULL,
-  PRIMARY KEY (`item`,`condition`),
+  PRIMARY KEY (`id`),
   KEY `condition` (`condition`),
   KEY `item` (`item`),
   CONSTRAINT `item_condition_ibfk_3` FOREIGN KEY (`item`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

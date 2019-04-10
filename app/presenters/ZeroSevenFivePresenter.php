@@ -42,13 +42,13 @@ class ZeroSevenFivePresenter extends BasePresenter{
 		$this->template->tables = $this->tableModel->getItemsTable();
 		$this->template->type = $this->tableModel->getItemTypes();
 		$this->template->equipment = $this->model->getItems();
-		$this->template->getCharacterKind = $this->getCharacterKind;
+		$this->template->getCharacterKind = [$this, 'getCharacterKind'];
 	}
 
 	public function renderConsumableList(){
 		$this->template->tables = $this->tableModel->getConsumablesTable();
 		$this->template->consumable = $this->model->getConsumables();
-		$this->template->getCharacterKind = $this->getCharacterKind;
+		$this->template->getCharacterKind = [$this, 'getCharacterKind'];
 	}
 
 	public function renderMonsterList(){
