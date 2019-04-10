@@ -82,7 +82,7 @@ class ImportMonsterCommand extends Command{
 			    $item = ParseUtils::JsonArray($item);
 			    $item['filename'] = $file->getFilename();
 
-			    $this->model->getCharacters()->insert($item);
+				$this->model->getCharacters()->insert($item);
 
 		        foreach($conditions as $condition){
 				    $condition['monster'] = $item['id'];

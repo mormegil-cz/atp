@@ -38,7 +38,9 @@ class ImportDroplistCommand extends Command{
 
 	    $inDir = $this->options->resDir.'/'.$version.'/raw/';
 
-	    $finder = Finder::findFiles($files)->in($inDir);
+		$finder = Finder::findFiles($files)
+			->exclude('*_debug*')
+			->in($inDir);
 
 	    $fileCount = iterator_count($finder->getIterator());
 
@@ -66,7 +68,7 @@ class ImportDroplistCommand extends Command{
 			    $droplist = ParseUtils::JsonArray($droplist);
 			    $droplist['filename'] = $file->getFilename();
 
-			    $this->model->getDroplist()->insert($droplist);
+			    $this->model->getDroplists()->insert($droplist);
 
 			    if ($items) {
 			    	foreach($items as $item) {
@@ -76,7 +78,7 @@ class ImportDroplistCommand extends Command{
 						}
 
 					    ParseUtils::expandArrayKey($item,'quantity');
-					    $item['droplistID'] = $droplist['id'];
+						$item['droplist_id'] = $droplist['id'];
 						$this->model->getDroplistItems()->insert($item);
 					}
 			    }

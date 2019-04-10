@@ -279,15 +279,15 @@ DROP TABLE IF EXISTS `droplist_item`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `droplist_item` (
   `droplist_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  `item_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  `min` smallint(5) unsigned NOT NULL,
-  `max` smallint(5) unsigned NOT NULL,
+  `itemID` varchar(30) COLLATE utf8_bin NOT NULL,
+  `quantityMin` smallint(5) unsigned NOT NULL,
+  `quantityMax` smallint(5) unsigned NOT NULL,
   `chance` float unsigned NOT NULL,
-  PRIMARY KEY (`droplist_id`,`item_id`),
-  KEY `item_id` (`item_id`),
+  PRIMARY KEY (`droplist_id`,`itemID`),
+  KEY `itemID` (`itemID`),
   KEY `droplist_id` (`droplist_id`),
   CONSTRAINT `droplist_item_ibfk_3` FOREIGN KEY (`droplist_id`) REFERENCES `droplist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `droplist_item_ibfk_4` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `droplist_item_ibfk_4` FOREIGN KEY (`itemID`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -489,7 +489,7 @@ CREATE TABLE `monster` (
   `maxHP` smallint(6) NOT NULL DEFAULT '1',
   `maxAP` tinyint(4) NOT NULL DEFAULT '10',
   `size` varchar(5) COLLATE utf8_bin NOT NULL DEFAULT '1',
-  `spawn_id` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `spawn` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `iconID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `phraseID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `droplistID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
@@ -498,9 +498,9 @@ CREATE TABLE `monster` (
   `hitEffect` text COLLATE utf8_bin,
   `filename` varchar(40) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `spawn_id` (`spawn_id`),
+  KEY `spawn` (`spawn`),
   KEY `droplistID` (`droplistID`),
-  CONSTRAINT `monster_ibfk_3` FOREIGN KEY (`spawn_id`) REFERENCES `spawn` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `monster_ibfk_3` FOREIGN KEY (`spawn`) REFERENCES `spawn` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `monster_ibfk_4` FOREIGN KEY (`droplistID`) REFERENCES `droplist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
