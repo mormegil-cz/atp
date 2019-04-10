@@ -88,15 +88,15 @@
           </table>
           <p class="left location" n:if="$item->spawn">
             {$map_icon|ATIcon}
-            {foreach $item->ref('spawn')->related('map_spawn')->fetchPairs('map') as $mapSpawn}
+            {*foreach $item->ref('spawn')->related('map_spawn')->fetchPairs('map') as $mapSpawn}
                 <a target="_blank" n:href="map#{$item->id} $mapSpawn->map">{$mapSpawn->ref('map')->name}</a>
-            {/foreach}
+            {/foreach*}
           </p>
       {/capture}
-      <tr id="{$item->id}" data-drop="{!$var|strip|pure}">
+      <tr id="{$item->id}" data-drop="{($var ? 'false' : 'true')|strip|pure}">
         {foreach $colums as $colum => $field}                            
           <td n:if="$colum == icon" class="icon">
-              <span class="hidden">{$item->spawnGroup}</span>
+              <span class="hidden">{$item->spawn}</span>
               <a href="#{$item->id}" {if $item->unique}title="unique"{/if} n:class="at-icon,$item->unique ? unique, $item->size">
                   {$item->iconID|ATIcon}
               </a>
