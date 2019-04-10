@@ -48,6 +48,7 @@
       <tbody>
       {var $items = clone $equipment}
       {foreach $items->where('category.inventorySlot',$table['slot']) as $item}
+      {*foreach $items as $item*}
       {capture $var}
       {foreach $item->related('droplist_item') as $dropItem}
         {foreach $dropItem->droplist->related('monster') as $monster}
@@ -69,29 +70,31 @@
           </tr>
       {/foreach}
       {/capture}      
-      <tr id="{$item->id}" data-drop="{!$var|strip|pure}">
-        {var $equip = $item->related('equip')->fetch()}
-        {foreach $table['fields'] as $colum => $field}                            
-          <td n:if="$colum == icon" class="icon">
+      <tr id="{$item->id}" data-drop="{($var ? 'false' : 'true')|strip|pure}">
+        {var $equip = $item->related('equipment')->fetch()}
+        {foreach $table['fields'] as $column => $field}                            
+          <td n:if="$column == icon" class="icon">
               <span n:if="$item->displaytype" class="hidden">{$type[$item->displaytype]}</span>
               <a title="{$item->displaytype}" href="#{$item->id}" class="at-icon {$item->displaytype}">{$item->iconID|ATIcon}</a>
           </td>
-          <td n:if="$colum == name" n:class="left, name, $var ? drop">
+          <td n:if="$column == name" n:class="left, name, $var ? drop">
               {$item->name}
           </td>
-          <td n:if="$colum == damage">
+          <td n:if="$column == damage">
+              {if $equip}
               {$equip->increaseAttackDamageMin}{if $equip->increaseAttackDamageMin!=$equip->increaseAttackDamageMax}-{$equip->increaseAttackDamageMax}{/if}
+              {/if}
           </td>
-          <td n:if="$colum == category" class="left category">
+          <td n:if="$column == category" class="left category">
               {$item->ref('category')->name}
           </td>
-          <td n:if="$colum == cond" class="cond">
+          <td n:if="$column == cond" class="cond">
           {foreach $item->related('item_condition') as $itemCond} {include #Conditions, cond => $itemCond}{/foreach}
           {if $item->hitEffect}{include #Effect, effect => $item->hitEffect, label => 'hit'}{/if}
           {if $item->killEffect}{include #Effect, effect => $item->killEffect, label => 'kill'}{/if}
           </td>
-          {continueIf in_array($colum,array('icon','name','category','cond','info','damage'))}
-          <td>{if $equip[$colum]}{$equip[$colum]}{/if}</td>
+          {continueIf in_array($column,array('icon','name','category','cond','info','damage'))}
+          <td>{if $equip && $equip[$column]}{$equip[$column]}{/if}</td>
         {/foreach}
       </tr>
       {/foreach}
