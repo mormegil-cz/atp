@@ -76,16 +76,16 @@
           <td colspan="3" class="left">{$questMonster->ref('quest')->name}</td>
       </tr>
       {/capture}
-      <tr id="{$item->id}" data-drop="{!$var|strip|pure}">
+      <tr id="{$item->id}" data-drop="{($var ? 'false' : 'true')|strip|pure}">
         {foreach $table['fields'] as $colum => $field}                            
           <td n:if="$colum == icon" class="icon"><span class="hidden">{$item->id}</span><a href="#{$item->id}"  class="at-icon">{$item->iconID|ATIcon}</a></td>
           <td n:if="$colum == name" n:class="left, name, $var ? drop">{$item->name}</td>
           <td n:if="$colum == location" class="category">
-          {if $item->spawnGroup}
+          {if $item->spawn}
               {*{$map_icon|ATIcon}*}
-              {foreach $item->ref('spawn')->related('map_spawn')->fetchPairs('map') as $mapSpawn}
+              {*foreach $item->ref('spawn')->related('map_spawn')->fetchPairs('map') as $mapSpawn}
                   <a target="_blank" n:href="map#{$item->id} $mapSpawn->map">{$mapSpawn->ref('map')->name}</a>{sep}<br>{/sep}
-              {/foreach}
+              {/foreach*}
           {/if}
           </td>                    
           {continueIf in_array($colum,array('icon','name','location'))}
