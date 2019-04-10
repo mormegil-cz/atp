@@ -77,7 +77,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 		$this->template->quests = $this->model->getQuests()->where('showInLog',TRUE);
 		$this->template->items = $this->model->getItems()->where('displaytype','quest');
 
-		$this->template->getCharacterKind = $this->getCharacterKind;
+		$this->template->getCharacterKind = [$this, 'getCharacterKind'];
 	}
 
 	public function renderAreaMap($map){
