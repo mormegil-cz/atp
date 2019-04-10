@@ -38,30 +38,46 @@ class ImportItemCommand extends Command{
 
 	    $inDir = $this->options->resDir.'/'.$version.'/raw/';
 
-	    $finder = Finder::findFiles($files)
-		    ->exclude('itemlist_pre0610_unused.json')
-		    ->in($inDir);
-
-	    $fileCount = iterator_count($finder->getIterator());
-
 	    $this->model->getDatabase()->beginTransaction();
 		$this->model->deleteTable($this->model->getItems()->getName());
 		$this->model->deleteTable($this->model->getEquipment()->getName());
 		$this->model->deleteTable($this->model->getItemsCategory()->getName());
 		$this->model->deleteTable($this->model->getItemsConditions()->getName());
 
-	    $json = file_get_contents($inDir.'itemcategories_1.json');
-	    $items = Json::decode($json,Json::FORCE_ARRAY);
+	    $finder = Finder::findFiles('itemcategories*.json')
+			->in($inDir);
+		foreach($finder as $file) {
+			$json = file_get_contents($inDir.$file->getFilename());
+			$items = Json::decode($json,Json::FORCE_ARRAY);
+			$count = count($items);
 
-	    $itemCount = 0;
-	    foreach ($items as $item) $this->model->getItemsCategory()->insert($item);
+			$bar = new ProgressBar($output, $count);
+		    $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %message%');
+		    $bar->setMessage($file->getFilename());
+		    $bar->start();
+			
+			foreach ($items as $item) {
+				$bar->advance();
+				$this->model->getItemsCategory()->insert($item);
+			}
+
+			$bar->finish();
+	        $output->writeln('');
+		}
+
+	    $finder = Finder::findFiles($files)
+		    ->exclude('itemlist_pre0610_unused.json')
+		    ->in($inDir);
+
+		$itemCount = 0;
+		$fileCount = iterator_count($finder->getIterator());
 
 	    foreach($finder as $file){
 		    $json = file_get_contents($inDir.$file->getFilename());
 		    $items = Json::decode($json,Json::FORCE_ARRAY);
 			$count = count($items);
 
-		    $bar = new ProgressBar($output, $count);
+			$bar = new ProgressBar($output, $count);
 		    $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %message%');
 		    $bar->setMessage($file->getFilename());
 		    $bar->start();
@@ -102,16 +118,16 @@ class ImportItemCommand extends Command{
 				    if (isset($equip['addedConditions'])) $conditions['equipSource'] = $equip['addedConditions'];
 
 				    $equip = ParseUtils::JsonArray($equip);
-				    $equip['item'] = $item['id'];
+					$equip['id'] = $item['id'];
 				    $this->model->getEquipment()->insert($equip);
 			    }
 
 			    foreach($conditions as $source => $conditionList){
 					foreach($conditionList as $condition) {
-						$properities = preg_split('/(?=[A-Z])/', $source);
+						$properties = preg_split('/(?=[A-Z])/', $source);
 						$condition['item'] = $item['id'];
-						$condition['event'] = $properities[0];
-						$condition['target'] = strtolower($properities[1]);
+						$condition['event'] = $properties[0];
+						$condition['target'] = strtolower($properties[1]);
 
 						$this->model->getItemsConditions()->insert($condition);
 					}

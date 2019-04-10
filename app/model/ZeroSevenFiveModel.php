@@ -51,7 +51,7 @@ class ZeroSevenFiveModel {
 	}
 
 	public function getItemsCategory() {
-		return $this->database->table('category');
+		return $this->database->table('itemcategory');
 	}
 
 	public function getDroplists() {
@@ -133,7 +133,7 @@ class ZeroSevenFiveModel {
 	}
 
 	public function getEquipment() {
-		return $this->database->table('equip');
+		return $this->database->table('equipment');
 	}
 
 }

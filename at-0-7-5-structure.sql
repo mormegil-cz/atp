@@ -320,6 +320,8 @@ CREATE TABLE `equipment` (
   `increaseCriticalSkill` tinyint(4) DEFAULT NULL,
   `setCriticalMultiplier` float DEFAULT NULL,
   `increaseMoveCost` tinyint(4) DEFAULT NULL,
+  `increaseUseItemCost` tinyint(4) DEFAULT NULL,
+  `increaseReequipCost` tinyint(4) DEFAULT NULL,
   `increaseMaxHP` tinyint(4) DEFAULT NULL,
   `increaseMaxAP` tinyint(4) DEFAULT NULL,
   `displaytype` varchar(20) COLLATE utf8_bin DEFAULT NULL,
@@ -355,17 +357,19 @@ CREATE TABLE `item` (
   `id` varchar(30) COLLATE utf8_bin NOT NULL,
   `name` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `iconID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
-  `itemcategory_id` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `category` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `displaytype` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `hasManualPrice` tinyint(1) unsigned DEFAULT NULL,
   `baseMarketCost` smallint(5) DEFAULT NULL,
   `equipEffect` text COLLATE utf8_bin,
   `hitEffect` text COLLATE utf8_bin,
   `killEffect` text COLLATE utf8_bin,
   `useEffect` text COLLATE utf8_bin,
+  `description` text COLLATE utf8_bin,
   `filename` varchar(40) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `itemcategory_id` (`itemcategory_id`),
-  CONSTRAINT `item_ibfk_2` FOREIGN KEY (`itemcategory_id`) REFERENCES `itemcategory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `category` (`category`),
+  CONSTRAINT `item_ibfk_2` FOREIGN KEY (`category`) REFERENCES `itemcategory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -386,18 +390,18 @@ DROP TABLE IF EXISTS `item_condition`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `item_condition` (
-  `item_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  `condition_id` varchar(20) COLLATE utf8_bin NOT NULL,
+  `item` varchar(30) COLLATE utf8_bin NOT NULL,
+  `condition` varchar(20) COLLATE utf8_bin NOT NULL,
   `event` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `target` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `magnitude` tinyint(3) unsigned DEFAULT NULL,
   `duration` tinyint(3) unsigned DEFAULT NULL,
   `chance` tinyint(3) unsigned DEFAULT NULL,
-  PRIMARY KEY (`item_id`,`condition_id`),
-  KEY `condition_id` (`condition_id`),
-  KEY `item_id` (`item_id`),
-  CONSTRAINT `item_condition_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `item_condition_ibfk_4` FOREIGN KEY (`condition_id`) REFERENCES `condition` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`item`,`condition`),
+  KEY `condition` (`condition`),
+  KEY `item` (`item`),
+  CONSTRAINT `item_condition_ibfk_3` FOREIGN KEY (`item`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `item_condition_ibfk_4` FOREIGN KEY (`condition`) REFERENCES `condition` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -485,16 +489,16 @@ CREATE TABLE `monster` (
   `spawn_id` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `iconID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `phraseID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
-  `droplist_id` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `droplistID` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `movementAggressionType` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `unique` tinyint(1) unsigned DEFAULT NULL,
   `hitEffect` text COLLATE utf8_bin,
   `filename` varchar(40) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `spawn_id` (`spawn_id`),
-  KEY `droplist_id` (`droplist_id`),
+  KEY `droplistID` (`droplistID`),
   CONSTRAINT `monster_ibfk_3` FOREIGN KEY (`spawn_id`) REFERENCES `spawn` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `monster_ibfk_4` FOREIGN KEY (`droplist_id`) REFERENCES `droplist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `monster_ibfk_4` FOREIGN KEY (`droplistID`) REFERENCES `droplist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -59,9 +59,16 @@ class ImportMonsterCommand extends Command{
 
 		    foreach ($items as $item) {
 			    $bar->advance();
-			    $item['spawnGroup'] = Arrays::get($item,'spawnGroup',$item['id']);
+				//$item['spawnGroup'] = Arrays::get($item,'spawnGroup',$item['id']);
+				//$item['spawnGroup'] = [$item['spawnGroup']];
+				$spawnGroup = $item['spawnGroup'];
+				unset($item['spawnGroup']);
+				$item['spawn'] = $spawnGroup;
 
-			    if (!$this->model->getSpawns()->get($item['spawnGroup'])) $this->model->getSpawns()->insert($item['spawnGroup']);
+				//if (!$this->model->getSpawns()->get($item['spawnGroup'])) $this->model->getSpawns()->insert($item['spawnGroup']);
+				if (!$this->model->getSpawns()->get($spawnGroup)) {
+					$this->model->getSpawns()->insert(['id' => $spawnGroup]);
+				}
 
 			    ParseUtils::expandArrayKey($item,'attackDamage');
 
