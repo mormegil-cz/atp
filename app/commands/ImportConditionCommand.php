@@ -47,13 +47,16 @@ class ImportConditionCommand extends Command{
 
 		$itemCount = 0;
 	    foreach($finder as $file){
-		    $json = file_get_contents($inDir.$file->getFilename());
+			$filename = $file->getFilename();
+			if (strpos($filename, '_debug') !== FALSE) continue;
+
+		    $json = file_get_contents($inDir.$filename);
 		    $items = Json::decode($json,Json::FORCE_ARRAY);
 			$count = count($items);
 
 		    $bar = new ProgressBar($output, $count);
 		    $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %message%');
-		    $bar->setMessage($file->getFilename());
+		    $bar->setMessage($filename);
 		    $bar->start();
 
 		    foreach ($items as $item) {
@@ -64,10 +67,12 @@ class ImportConditionCommand extends Command{
 				    $item = $item + $item['abilityEffect'];
 			    }
 
-			    $item = ParseUtils::JsonArray($item);
-			    $item['filename'] = $file->getFilename();
+				if (!array_key_exists('isPositive', $item) || !$item['isPositive']) $item['isPositive'] = 0;
 
-				$output->writeln($file->getFilename());
+			    $item = ParseUtils::JsonArray($item);
+			    $item['filename'] = $filename;
+
+				//$output->writeln($filename);
 			    $this->model->getConditions()->insert($item);
 		    }
 		    $bar->finish();

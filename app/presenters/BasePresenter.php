@@ -42,6 +42,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter{
 			//file_put_contents($this->options->wwwDir.'/drawable/'.$this->VERSION.'/required.txt',$iconID[0]."\n",FILE_APPEND);
 			$info = getimagesize($this->options->wwwDir.'/'.$file);
 			$w = $info[0] / $ICON_SIZE;
+			if ($w === 0) {
+				Debugger::log("File $file not found");
+				$w = 1;
+			}
 			$t = floor($iconID[1]/$w);
 			$l = $iconID[1] % $w;
 
