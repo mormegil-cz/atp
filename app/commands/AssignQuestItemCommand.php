@@ -39,22 +39,22 @@ class AssignItemQuestCommand extends Command{
 		$output->writeln('<comment>Importing items from replies requirements</comment>');
 
 		foreach ($this->model->getDialogRepliesRequires()->where('NOT requireType','questProgress') as $dialog){
-			foreach ($this->model->getDialogRewards()->where('dialog',$dialog->next_id)->where('rewardType','questProgress') as $reward){
-				$item = ['quest' => $reward->rewardID, 'item' => $dialog->requireID, 'quantity' => $dialog->value];
+			foreach ($this->model->getDialogRewards()->where('dialog_id',$dialog->next_id)->where('rewardType','questProgress') as $reward){
+				$item = ['quest_id' => $reward->rewardID, 'item_id' => $dialog->requireID, 'quantity' => $dialog->value];
 				if (!$this->model->getQuestsItems()->where($item)->fetch()){
-					$item['dialog'] = $dialog->dialog;
-
+					//$item['dialog'] = $dialog->dialog;
+					if (!isset($item['quantity'])) $item['quantity'] = 0;
 					$output->writeln(join(' ',$item));
 					$this->model->getQuestsItems()->insert($item);
 					$itemCount++;
 				}
 			}
 
-			foreach ($this->model->getDialogRewards()->where('dialog',$dialog->dialog)->where('rewardType','questProgress') as $reward){
-				$item = ['quest' => $reward->rewardID, 'item' => $dialog->requireID, 'quantity' => $dialog->value];
+			foreach ($this->model->getDialogRewards()->where('dialog_id',$dialog->dialog_id)->where('rewardType','questProgress') as $reward){
+				$item = ['quest_id' => $reward->rewardID, 'item_id' => $dialog->requireID, 'quantity' => $dialog->value];
 				if (!$this->model->getQuestsItems()->where($item)->fetch()){
-					$item['dialog'] = $dialog->dialog;
-
+					//$item['dialog'] = $dialog->dialog;
+					if (!isset($item['quantity'])) $item['quantity'] = 0;
 					$output->writeln(join(' ',$item));
 					$this->model->getQuestsItems()->insert($item);
 					$itemCount++;
@@ -68,11 +68,11 @@ class AssignItemQuestCommand extends Command{
 		foreach ($this->model->getDialogRewards()->where('rewardType','dropList') as $droplist){
 			foreach($this->model->getDialogRewards()->where('rewardType','questProgress')->where('dialog',$droplist->dialog) as $quest){
 				foreach($this->model->getDroplistItems()->where('droplistID',$droplist->rewardID) as $item) {
-					$insert = ['quest' => $quest->rewardID, 'item' => $item->itemID, 'quantity' => $item->quantityMin];
+					$insert = ['quest_id' => $quest->rewardID, 'item_id' => $item->itemID, 'quantity' => $item->quantityMin];
 					if (!$this->model->getQuestsItems()->where($insert)->fetch()){
-						$insert['dialog'] = $dialog->dialog;
+						//$insert['dialog'] = $dialog->dialog;
 
-						$output->writeln($insert['quest'].' '.$insert['item'].' droplist '.$insert['quantity']);
+						$output->writeln($insert['quest_id'].' '.$insert['item_id'].' droplist '.$insert['quantity']);
 						$this->model->getQuestsItems()->insert($insert);
 						$itemCount++;
 					}

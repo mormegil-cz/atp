@@ -213,11 +213,13 @@ DROP TABLE IF EXISTS `dialog_reward`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dialog_reward` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
   `dialog_id` varchar(40) COLLATE utf8_bin NOT NULL,
   `rewardType` varchar(20) COLLATE utf8_bin NOT NULL,
   `rewardID` varchar(30) COLLATE utf8_bin NOT NULL,
   `mapName` varchar(30) COLLATE utf8_bin NULL,
   `value` smallint(6) DEFAULT NULL,
+  PRIMARY KEY(`id`),
   KEY `dialog_id` (`dialog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -595,14 +597,16 @@ DROP TABLE IF EXISTS `quest_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `quest_item` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
   `item_id` varchar(30) COLLATE utf8_bin NOT NULL,
   `quest_id` varchar(30) COLLATE utf8_bin NOT NULL,
   `quantity` smallint(5) unsigned NOT NULL DEFAULT '0',
   `filename` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`item_id`,`quest_id`,`quantity`),
+  PRIMARY KEY (`id`),
   KEY `monster_id` (`item_id`),
   KEY `quest_id` (`quest_id`),
-  CONSTRAINT `quest_item_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `quest_item_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quest_item_ibfk_2` FOREIGN KEY (`quest_id`) REFERENCES `quest` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
