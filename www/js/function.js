@@ -17,7 +17,7 @@ function openHash(){
 	var hash = window.location.hash;
 	if (hash) {
 		var tr = document.getElementById(hash.slice(1));
-		var table = window['oTable'+tr.parentNode.parentNode.id.slice(0,-1)];
-		openTable(table,tr);
+		var table = tr && tr.parentNode.parentNode;
+		if (table) openTable(table,tr);
 	}
 }

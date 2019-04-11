@@ -6,8 +6,8 @@
   {ceil(($avgAttackHP * 3 + $avgDefenseHP) * 0.7) + $attackConditionBonus}
 {/define}
 
-{block #head}
-  <script type="text/javascript">
+<script type="text/javascript">
+{block #headjs}
     $(document).ready(function(){
         var setting = { 
           "bPaginate": false,
@@ -23,7 +23,7 @@
          {/foreach}
          {/block}
           ]
-        } 
+        }
 
       {foreach $tables as $label}    
         $('#{!$label}s td.drop').live('click', function () {        
@@ -38,10 +38,10 @@
 
   function openTable(table,tr) {
     $('#'+tr.id).toggleClass('border');
-    table.fnOpen(tr,'<table>'+unescape(tr.getAttribute('data-drop'))+'</p>','details');
+    table.fnOpen(tr,'<table>'+unescape(tr.getAttribute('data-drop')),'details');
   }  
-  </script>
 {/block}
+</script>
 
 {block #content}
      <h1 n:block="title"><a n:href="default"><img alt="" src="{$baseUri}/image/icon.png"></a>Andor's Trail Monster List</h1>
@@ -88,12 +88,12 @@
           </table>
           <p class="left location" n:if="$item->spawn">
             {$map_icon|ATIcon}
-            {*foreach $item->ref('spawn')->related('map_spawn')->fetchPairs('map') as $mapSpawn}
+            {foreach $item->ref('spawn')->related('spawn_map')->fetchPairs('map') as $mapSpawn}
                 <a target="_blank" n:href="map#{$item->id} $mapSpawn->map">{$mapSpawn->ref('map')->name}</a>
-            {/foreach*}
+            {/foreach}
           </p>
       {/capture}
-      <tr id="{$item->id}" data-drop="{($var ? 'false' : 'true')|strip|pure}">
+      <tr id="{$item->id}" data-drop="{$var|strip|pure}">
         {foreach $colums as $colum => $field}                            
           <td n:if="$colum == icon" class="icon">
               <span class="hidden">{$item->spawn}</span>
