@@ -106,14 +106,20 @@ class ImportMapCommand extends Command{
 
 		    foreach ($xml->xpath("/map/objectgroup/object[@type='spawn']") as $spawn){
 			    $count = $spawn->xpath("properties/property[@name='quantity']");
-			    $count = empty($count) ? 1 : intval($count[0]['value']);
+				$count = empty($count) ? 1 : intval($count[0]['value']);
+				$name = strtolower(strval($spawn['name']));
+				$spawnGroup = $spawn->xpath("properties/property[@name='spawngroup']");
+				$spawnGroup = empty($spawnGroup) ? $name : strval($spawnGroup[0]['value']);
+
+				if (!$this->model->getSpawns()->get($spawnGroup)) {
+					$this->model->getSpawns()->insert(['id' => $spawnGroup]);
+				}
 
 			    $map = [
-				    'map' => $mapName,
-				    'spawnGroup' => strtolower(strval($spawn['name'])),
+					'map' => $mapName,
+				    'spawnGroup' => $spawnGroup,
 			        'quantity' => $count
-			    ];
-
+				];
 			    $this->model->getMapSpawns()->insert($map);
 			    $itemCount++;
 		    }

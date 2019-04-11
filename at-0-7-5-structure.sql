@@ -453,7 +453,12 @@ DROP TABLE IF EXISTS `map`;
 CREATE TABLE `map` (
   `id` varchar(30) COLLATE utf8_bin NOT NULL,
   `name` varchar(50) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
+  `area` tinyint(1) unsigned NOT NULL,
+  `outside` tinyint(1) unsigned NOT NULL,
+  `parent` varchar(30) COLLATE utf8_bin NULL,
+  PRIMARY KEY (`id`),
+  KEY `parent` (`parent`),
+  CONSTRAINT `map_ibfk_3` FOREIGN KEY (`parent`) REFERENCES `map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -713,14 +718,15 @@ DROP TABLE IF EXISTS `spawn_map`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `spawn_map` (
-  `spawn_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  `map_id` varchar(30) COLLATE utf8_bin NOT NULL,
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `map` varchar(30) COLLATE utf8_bin NOT NULL,
+  `spawnGroup` varchar(30) COLLATE utf8_bin NOT NULL,
   `quantity` tinyint(3) unsigned DEFAULT NULL,
-  PRIMARY KEY (`spawn_id`,`map_id`),
-  KEY `map_id` (`map_id`),
-  KEY `spawn_id` (`spawn_id`),
-  CONSTRAINT `spawn_map_ibfk_3` FOREIGN KEY (`spawn_id`) REFERENCES `spawn` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `spawn_map_ibfk_4` FOREIGN KEY (`map_id`) REFERENCES `map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `map` (`map`),
+  KEY `spawnGroup` (`spawnGroup`),
+  CONSTRAINT `spawn_map_ibfk_3` FOREIGN KEY (`spawnGroup`) REFERENCES `spawn` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `spawn_map_ibfk_4` FOREIGN KEY (`map`) REFERENCES `map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

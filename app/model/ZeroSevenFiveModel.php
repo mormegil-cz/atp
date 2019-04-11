@@ -47,7 +47,7 @@ class ZeroSevenFiveModel {
 		return $this->database->table('spawn');
 	}
 	public function getMapSpawns() {
-		return $this->database->table('map_spawn');
+		return $this->database->table('spawn_map');
 	}
 
 	public function getItemsCategory() {

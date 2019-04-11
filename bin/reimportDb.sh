@@ -8,3 +8,4 @@ bin/console database:importItem
 bin/console database:importQuest
 bin/console database:importDroplist
 bin/console database:importMonster
+bin/console database:importMap
