@@ -7,7 +7,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
     {foreach $tables as $label =>$table}
-      oTable{!$label} = $('#{!$label}s').dataTable({ 
+      oTable{$label|noescape} = $('#{$label|noescape}s').dataTable({ 
         "bPaginate": false,
         "bFilter": false,
         "bInfo": false,
@@ -23,9 +23,9 @@
     {/foreach} 
 
     {foreach $tables as $label => $table}    
-    $('#{!$label}s td.drop').live('click', function () {        
+    $('#{$label|noescape}s td.drop').live('click', function () {        
       tr = this.parentNode;
-      if (oTable{!$label}.fnIsOpen(tr)) closeTable(oTable{!$label},tr); else openTable(oTable{!$label},tr);
+      if (oTable{$label|noescape}.fnIsOpen(tr)) closeTable(oTable{$label|noescape},tr); else openTable(oTable{$label|noescape},tr);
     } );
     {/foreach} 
     
@@ -71,7 +71,7 @@
           </tr>
       {/foreach}
       {/capture}            
-      <tr id="{$item->id}" data-drop="{!$var|pure}">
+      <tr id="{$item->id}" data-drop="{$var|noescape|strip|pure}">
         {foreach $table['fields'] as $colum => $field}                            
           <td n:if="$colum == icon" class="icon"><span class="hidden">{$item->id}</span><a href="#{$item->id}" class="at-icon">{$item->iconID|ATIcon}</a></td>
           <td n:if="$colum == name" n:class="left, name, $var ? drop">{$item->name}</td>

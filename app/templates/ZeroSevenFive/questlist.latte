@@ -2,7 +2,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
     {foreach $tables as $label}
-      oTable{!$label} = $('#{!$label}s').dataTable({ 
+      oTable{$label|noescape} = $('#{$label|noescape}s').dataTable({ 
         "bPaginate": false,
         "bFilter": false,
         "bInfo": false
@@ -10,9 +10,9 @@
     {/foreach} 
 
     {foreach $tables as $label}    
-    $('#{!$label}s td.drop').live('click', function () {        
+    $('#{$label|noescape}s td.drop').live('click', function () {        
       tr = this.parentNode;
-      if (oTable{!$label}.fnIsOpen(tr)) closeTable(oTable{!$label},tr); else openTable(oTable{!$label},tr);
+      if (oTable{$label|noescape}.fnIsOpen(tr)) closeTable(oTable{$label|noescape},tr); else openTable(oTable{$label|noescape},tr);
     } );
     {/foreach} 
     
@@ -88,7 +88,7 @@
       </table>
       {/capture}
       
-      <tr id="{$item->id}" data-drop="{!$var|strip|pure}">        
+      <tr id="{$item->id}" data-drop="{$var|noescape|strip|pure}">        
           <td class="icon"><a href="#{$item->id}"  class="at-icon">{$quest_icon|ATIcon}</a></td>
           <td n:class="left, name, $var ? drop">{$item->name}</td>
           <td class="left text">

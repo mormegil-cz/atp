@@ -2,7 +2,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
     {foreach $tables as $label =>$table}
-      oTable{!$label} = $('#{!$label}s').dataTable({ 
+      oTable{$label|noescape} = $('#{$label|noescape}s').dataTable({ 
         "bPaginate": false,
         "bFilter": false,
         "bInfo": false,
@@ -19,9 +19,9 @@
     {/foreach} 
 
     {foreach $tables as $label => $table}    
-    $('#{!$label}s td.drop').live('click', function () {        
+    $('#{$label|noescape}s td.drop').live('click', function () {        
       tr = this.parentNode;
-      if (oTable{!$label}.fnIsOpen(tr)) closeTable(oTable{!$label},tr); else openTable(oTable{!$label},tr);
+      if (oTable{$label|noescape}.fnIsOpen(tr)) closeTable(oTable{$label|noescape},tr); else openTable(oTable{$label|noescape},tr);
     } );
     {/foreach} 
     
@@ -70,7 +70,7 @@
           </tr>
       {/foreach}
       {/capture}      
-      <tr id="{$item->id}" data-drop="{($var ? 'false' : 'true')|strip|pure}">
+      <tr id="{$item->id}" data-drop="{$var|noescape|strip|pure}">
         {var $equip = $item->related('equipment')->fetch()}
         {foreach $table['fields'] as $column => $field}                            
           <td n:if="$column == icon" class="icon">

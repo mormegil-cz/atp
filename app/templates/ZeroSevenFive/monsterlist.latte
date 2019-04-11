@@ -26,11 +26,11 @@
         }
 
       {foreach $tables as $label}    
-        $('#{!$label}s td.drop').live('click', function () {        
+        $('#{$label|noescape}s td.drop').live('click', function () {        
           var tr = this.parentNode;
-          if (oTable{!$label}.fnIsOpen(tr)) closeTable(oTable{!$label},tr); else openTable(oTable{!$label},tr);
+          if (oTable{$label|noescape}.fnIsOpen(tr)) closeTable(oTable{$label|noescape},tr); else openTable(oTable{$label|noescape},tr);
         } );
-        oTable{!$label} = $('#{!$label}s').dataTable(setting);
+        oTable{$label|noescape} = $('#{$label|noescape}s').dataTable(setting);
       {/foreach}      
     
     openHash();
@@ -93,7 +93,7 @@
             {/foreach}
           </p>
       {/capture}
-      <tr id="{$item->id}" data-drop="{$var|strip|pure}">
+      <tr id="{$item->id}" data-drop="{$var|noescape|strip|pure}">
         {foreach $colums as $colum => $field}                            
           <td n:if="$colum == icon" class="icon">
               <span class="hidden">{$item->spawn}</span>
