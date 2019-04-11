@@ -132,7 +132,9 @@ DROP TABLE IF EXISTS `dialog`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dialog` (
-  `id` varchar(30) COLLATE utf8_bin NOT NULL,
+  `id` varchar(40) COLLATE utf8_bin NOT NULL,
+  `message` text COLLATE utf8_bin NOT NULL,
+  `switchToNPC` varchar(30) COLLATE utf8_bin NULL,
   `filename` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -148,30 +150,6 @@ LOCK TABLES `dialog` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `dialog_message`
---
-
-DROP TABLE IF EXISTS `dialog_message`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `dialog_message` (
-  `dialog_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  `message` text COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`dialog_id`),
-  CONSTRAINT `dialog_message_ibfk_1` FOREIGN KEY (`dialog_id`) REFERENCES `dialog` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `dialog_message`
---
-
-LOCK TABLES `dialog_message` WRITE;
-/*!40000 ALTER TABLE `dialog_message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `dialog_message` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `dialog_replies`
 --
 
@@ -179,10 +157,12 @@ DROP TABLE IF EXISTS `dialog_replies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dialog_replies` (
-  `dialog_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  `next_id` varchar(30) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`dialog_id`,`next_id`),
-  KEY `next_id` (`next_id`),
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `dialog_id` varchar(40) COLLATE utf8_bin NOT NULL,
+  `nextPhraseID` varchar(30) COLLATE utf8_bin NOT NULL,
+  `text` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nextPhraseID` (`nextPhraseID`),
   KEY `dialog_id` (`dialog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -204,11 +184,14 @@ DROP TABLE IF EXISTS `dialog_require`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dialog_require` (
-  `dialog_id` varchar(30) COLLATE utf8_bin NOT NULL,
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `dialog_id` varchar(40) COLLATE utf8_bin NOT NULL,
   `next_id` varchar(30) COLLATE utf8_bin NOT NULL,
   `requireType` varchar(20) COLLATE utf8_bin NOT NULL,
   `requireID` varchar(30) COLLATE utf8_bin NOT NULL,
   `value` smallint(6) DEFAULT NULL,
+  `negate` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY(`id`),
   KEY `dialog_id` (`dialog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -230,9 +213,10 @@ DROP TABLE IF EXISTS `dialog_reward`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dialog_reward` (
-  `dialog_id` varchar(30) COLLATE utf8_bin NOT NULL,
+  `dialog_id` varchar(40) COLLATE utf8_bin NOT NULL,
   `rewardType` varchar(20) COLLATE utf8_bin NOT NULL,
   `rewardID` varchar(30) COLLATE utf8_bin NOT NULL,
+  `mapName` varchar(30) COLLATE utf8_bin NULL,
   `value` smallint(6) DEFAULT NULL,
   KEY `dialog_id` (`dialog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

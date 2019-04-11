@@ -71,11 +71,11 @@ class ZeroSevenFiveModel {
 	}
 
 	public function getDialogReplies() {
-		return $this->database->table('dialog_reply');
+		return $this->database->table('dialog_replies');
 	}
 
 	public function getDialogRepliesRequires() {
-		return $this->database->table('dialog_replay_require');
+		return $this->database->table('dialog_require');
 	}
 
 	public function setDefaultDialog() {

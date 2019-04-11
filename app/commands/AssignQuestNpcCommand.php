@@ -38,7 +38,7 @@ class AssignNpcQuestCommand extends Command{
 		$itemCount = 0;
 
 		function find_children_db($name,&$model,&$tree = []){
-			$dialogs = $model->getDialogReplies()->where('dialog',$name)->where('NOT nextPhraseID',['F','R','S','X']);
+			$dialogs = $model->getDialogReplies()->where('dialog_id',$name)->where('NOT nextPhraseID',['F','R','S','X']);
 			if (count($dialogs)){
 				foreach($dialogs as $dialog){
 					if (!array_key_exists($dialog['nextPhraseID'],$tree)) {
@@ -53,10 +53,10 @@ class AssignNpcQuestCommand extends Command{
 		foreach ($this->model->getCharacters()->where('NOT phraseID',null) as $npc){
 			$dialogs = find_children_db($npc['phraseID'],$this->model);
 			$dialogs[$npc['phraseID']] = 1;
-			foreach ($this->model->getDialogRewards()->select('DISTINCT rewardID, dialog')->where('rewardType','questProgress')->where('dialog',array_keys($dialogs)) as $reward){
-				$insert = ['quest' => $reward->rewardID,'monster' => $npc->id];
+			foreach ($this->model->getDialogRewards()->select('DISTINCT rewardID, dialog_id')->where('rewardType','questProgress')->where('dialog_id',array_keys($dialogs)) as $reward){
+				$insert = ['quest_id' => $reward->rewardID,'monster_id' => $npc->id];
 				if (!$this->model->getQuestsCharacters()->where($insert)->fetch()){
-					$insert['dialog'] = $reward->dialog;
+					//$insert['dialog_id'] = $reward->dialog;
 					$this->model->getQuestsCharacters()->insert($insert);
 					$output->writeln(join(' ',$insert));
 					$itemCount++;

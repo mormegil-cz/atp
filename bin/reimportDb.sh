@@ -9,3 +9,6 @@ bin/console database:importQuest
 bin/console database:importDroplist
 bin/console database:importMonster
 bin/console database:importMap
+bin/console database:importDialog
+bin/console database:assignItemQuest
+bin/console database:assignNpcQuest

@@ -39,7 +39,9 @@ class ImportDialogCommand extends Command{
 
 	    $inDir = $this->options->resDir.'/'.$version.'/raw/';
 
-	    $finder = Finder::findFiles($files)->in($inDir);
+		$finder = Finder::findFiles($files)
+			->exclude('*_fixes*')
+			->in($inDir);
 
 	    $fileCount = iterator_count($finder->getIterator());
 
@@ -75,19 +77,19 @@ class ImportDialogCommand extends Command{
 			    $this->model->getDialog()->insert($dialog);
 
 			    foreach($rewards as $reward) {
-				    $reward['dialog'] = $dialog['id'];
+				    $reward['dialog_id'] = $dialog['id'];
 				    $this->model->getDialogRewards()->insert($reward);
 			    }
 
 		        foreach($replies as $reply) {
-				    $reply['dialog'] = $dialog['id'];
+				    $reply['dialog_id'] = $dialog['id'];
 				    $requires = ParseUtils::getKeyUnset($reply,'requires',[]);
 
 				    $this->model->getDialogReplies()->insert($reply);
 
 			        foreach ($requires as $require){
-				        $require['dialog'] = $reply['dialog'];
-				        $require['nextPhraseID'] = $reply['nextPhraseID'];
+				        $require['dialog_id'] = $reply['dialog_id'];
+						$require['next_id'] = $reply['nextPhraseID'];
 				        $this->model->getDialogRepliesRequires()->insert($require);
 			        }
 				}

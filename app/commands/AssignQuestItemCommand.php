@@ -39,7 +39,7 @@ class AssignItemQuestCommand extends Command{
 		$output->writeln('<comment>Importing items from replies requirements</comment>');
 
 		foreach ($this->model->getDialogRepliesRequires()->where('NOT requireType','questProgress') as $dialog){
-			foreach ($this->model->getDialogRewards()->where('dialog',$dialog->nextPhraseID)->where('rewardType','questProgress') as $reward){
+			foreach ($this->model->getDialogRewards()->where('dialog',$dialog->next_id)->where('rewardType','questProgress') as $reward){
 				$item = ['quest' => $reward->rewardID, 'item' => $dialog->requireID, 'quantity' => $dialog->value];
 				if (!$this->model->getQuestsItems()->where($item)->fetch()){
 					$item['dialog'] = $dialog->dialog;
