@@ -40,11 +40,13 @@
         <img n:if="$needAbove" id="above" alt="{$map} above" src="{$baseUri}/{if $basePath}../render/{/if}{$version}/map/{$map}_above.png" width="{$width}" height="{$height}">
 
         {foreach $spawns as $spawn}
+        {if $spawn->monster}
             {var $kind = $getCharacterKind($spawn->monster)}
             {var $id = $spawn->monster->id}
-            {var $unique = $spawn->monster->unique ? TRUE : (($spawn->monster->spawnGroup == $id) ? TRUE : FALSE)}
+            {var $unique = $spawn->monster->unique ? TRUE : (($spawn->monster->spawn == $id) ? TRUE : FALSE)}
         <a id="{$id}{if !$unique}{$iterator->counter}{/if}" title="{$spawn->monster->name}"
            n:href="{$kind}list#{$id}" style="left: {$spawn->x}px; top: {$spawn->y}px" n:class="npc, $id, $spawn->monster->size"></a>
+        {/if}
         {/foreach}
 
         <!--Links-->
