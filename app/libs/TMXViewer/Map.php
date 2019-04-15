@@ -1,6 +1,11 @@
 <?php
 namespace Tiled\Map;
 
+require_once('Properties.php');
+require_once('Tileset.php');
+require_once('TileLayer.php');
+require_once('ObjectLayer.php');
+
 class Map{
 	use Properties;
   

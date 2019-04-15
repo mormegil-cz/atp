@@ -271,11 +271,19 @@ class ZeroSevenFivePresenter extends BasePresenter{
 
 		Debugger::barDump($monsters);
 
-		foreach($spawns as $area) $area->monster = $monsters[$area->spawn_id][array_rand($monsters[$area->spawn_id])];
+		foreach($spawns as $area) {
+			$spawnId = $area->spawn_id;
+			if (!isset($monsters[$area->spawn_id])) {
+				print('!! No '.$area->spawn_id." monster spawn\n");
+				continue;
+			}
+			$monsterList = $monsters[$area->spawn_id];
+			$area->monster = $monsterList[array_rand($monsters[$area->spawn_id])];
+		}
 
 
 
-		$this->template->getCharacterKind = $this->getCharacterKind;
+		$this->template->getCharacterKind = [$this, "getCharacterKind"];
 		$this->template->spawns = $spawns;
 		$this->template->links = $links;
 		$this->template->needAbove = isset($needAbove) ? $needAbove : FALSE;

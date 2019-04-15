@@ -15,7 +15,7 @@ class CreateMapAreaFileCommand extends Command{
 	/** @var \Nette\Application\Application @inject */
 	public $app;
 
-	/** @var \Nette\Http\Session @inject */
+	///** @var \Nette\Http\Session @inject */
 	//public $session;
 
 	/** @var \App\Model\Options @inject*/

@@ -1,6 +1,9 @@
 <?php
 namespace Tiled\Map;
 
+require_once('Functions.php');
+require_once('Layer.php');
+
 class TileLayer extends Layer {
 	use Properties;
   

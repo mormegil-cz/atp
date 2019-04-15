@@ -1,6 +1,8 @@
 <?php
 namespace Tiled\Map;
 
+require_once('IdProperties.php');
+
 class Tileset {
 	use Properties; 
   use IdProperties;

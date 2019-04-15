@@ -1,6 +1,9 @@
 <?php
 namespace App\Console;
 
+require_once(__DIR__ . '/../libs/TMXViewer/Map.php');
+require_once(__DIR__ . '/../libs/TMXViewer/Viewer.php');
+
 use Nette\Utils\Finder;
 use Nette\Utils\Image;
 use Symfony\Component\Console\Command\Command;
