@@ -1,7 +1,7 @@
 <?php
 namespace Tiled\Map;
 
-class Object {
+class TMXObject {
 	use Properties;
   
   //attributes

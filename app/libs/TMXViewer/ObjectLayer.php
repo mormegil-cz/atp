@@ -1,6 +1,8 @@
 <?php
 namespace Tiled\Map;
 
+include 'TMXObject.php';
+
 class ObjectLayer extends Layer {
 	use Properties;
   //attributes
@@ -26,7 +28,7 @@ class ObjectLayer extends Layer {
 	
 	private function load_objects(array $xml, $ref='') {
 		foreach($xml as $obj) {
-			$ob=new Object();
+			$ob=new TMXObject();
 			$ob->load_from_element($obj, $ref);
 			$this->addObject($ob);
 		}
@@ -49,7 +51,7 @@ class ObjectLayer extends Layer {
 		}
 	}
 	
-	public function addObject(Object $obj) {
+	public function addObject(TMXObject $obj) {
 		$this->objects[]=$obj;
 	}
 	

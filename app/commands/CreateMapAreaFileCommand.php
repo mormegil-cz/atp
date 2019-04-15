@@ -53,7 +53,7 @@ class CreateMapAreaFileCommand extends Command{
 		    $bar->setMessage($file);
 		    $bar->advance();
 
-		    $presenter = $this->app->presenterFactory->createPresenter($this->options->getVersionName($version));
+		    $presenter = $this->app->getPresenterFactory()->createPresenter($this->options->getVersionName($version));
 		    $presenter->autoCanonicalize = FALSE;
 		    $request = new \Nette\Application\Request($this->options->getVersionName($version), 'GET', array('action' => 'areamap','map' => $file));
 		    $response = $presenter->run($request);
