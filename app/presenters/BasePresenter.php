@@ -37,17 +37,24 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter{
 			$file = '/drawable/'.$this->VERSION.'/'.$iconID[0].'.png';
 
 			$render = $this->getSession('render');
-			if ($render->imageList) $render[$this->VERSION][$iconID[0]] = null;
+			if ($render->offsetExists('imageList') && $render->imageList) $render[$this->VERSION][$iconID[0]] = null;
 
 			//file_put_contents($this->options->wwwDir.'/drawable/'.$this->VERSION.'/required.txt',$iconID[0]."\n",FILE_APPEND);
-			$info = getimagesize($this->options->wwwDir.'/'.$file);
-			$w = $info[0] / $ICON_SIZE;
-			if ($w === 0) {
-				Debugger::log("File $file not found");
+			$filename = $this->options->wwwDir.'/'.$file;
+			if (file_exists($filename)) {
+				$info = getimagesize($filename);
+				$w = $info[0] / $ICON_SIZE;
+				if ($w === 0) {
+					Debugger::log("File $filename not found");
+					$w = 1;
+				}
+				$t = floor($iconID[1]/$w);
+				$l = $iconID[1] % $w;
+			} else {
 				$w = 1;
+				$t = 1;
+				$l = 0;
 			}
-			$t = floor($iconID[1]/$w);
-			$l = $iconID[1] % $w;
 
 			$img = \Nette\Utils\Html::el('img');
 			$img->src = $this->template->baseUri.$file;

@@ -53,7 +53,7 @@ class RenderPagesCommand extends Command{
 		    $bar->setMessage($page);
 		    $bar->advance();
 
-		    $presenter = $this->app->presenterFactory->createPresenter($presenterName);
+		    $presenter = $this->app->getPresenterFactory()->createPresenter($presenterName);
 		    $presenter->autoCanonicalize = FALSE;
 		    $request = new \Nette\Application\Request($presenterName, 'GET', array('action' => $page));
 		    $response = $presenter->run($request);

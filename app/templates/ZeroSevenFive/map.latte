@@ -33,14 +33,18 @@
     <div id="map" style="width: {$width}px">
         <img id="image" alt="{$map}.tmx" src="{$baseUri}/{if $basePath}../render/{/if}{$version}/map/{$map}.jpg" width="{$width}" height="{$height}">
 
-        <div n:foreach="$spawns as $spawn" n:class="npc, $spawn->monster->size" style="left: {$spawn->x}px; top: {$spawn->y}px">
+        {foreach $spawns as $spawn}
+        {if $spawn->offsetExists('monster')}
+        <div n:class="npc, $spawn->monster->size" style="left: {$spawn->x}px; top: {$spawn->y}px">
             {$spawn->monster->iconID|ATIcon}
         </div>
+        {/if}
+        {/foreach}
 
         <img n:if="$needAbove" id="above" alt="{$map} above" src="{$baseUri}/{if $basePath}../render/{/if}{$version}/map/{$map}_above.png" width="{$width}" height="{$height}">
 
         {foreach $spawns as $spawn}
-        {if $spawn->monster}
+        {if $spawn->offsetExists('monster')}
             {var $kind = $getCharacterKind($spawn->monster)}
             {var $id = $spawn->monster->id}
             {var $unique = $spawn->monster->unique ? TRUE : (($spawn->monster->spawn == $id) ? TRUE : FALSE)}

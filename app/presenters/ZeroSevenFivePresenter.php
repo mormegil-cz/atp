@@ -115,7 +115,8 @@ class ZeroSevenFivePresenter extends BasePresenter{
 			$subMap->x = (intval($localMap['x']) - intval($areaMap['x']))*$scale;
 			$subMap->y = (intval($localMap['y']) - intval($areaMap['y']))*$scale;
 
-			$image = Image::fromFile($this->options->renderDir.'/'.$this->VERSION.'/map/'.$id.'.png');
+			$filename = $this->options->renderDir.'/'.$this->VERSION.'/map/'.$id.'.png';
+			$image = Image::fromFile($filename);
 			$image->resize(($areaMapScale*100).'%',NULL);
 
 			$subMap->width = $image->width;
@@ -274,6 +275,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 		foreach($spawns as $area) {
 			$spawnId = $area->spawn_id;
 			if (!isset($monsters[$area->spawn_id])) {
+				Debugger:dump($area);
 				//print('!! No '.$area->spawn_id." monster spawn\n");
 				continue;
 			}
