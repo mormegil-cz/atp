@@ -1,5 +1,5 @@
 {block #head}
-  <script type="text/javascript">
+  <script>
     $(document).ready(function(){
     {foreach $tables as $label =>$table}
       oTable{$label|noescape} = $('#{$label|noescape}s').dataTable({ 
@@ -7,7 +7,7 @@
         "bFilter": false,
         "bInfo": false,
         "aoColumnDefs": [
-       {block |strip}
+       {block}
        {foreach $table['fields'] as $colum => $field} 
         {if $field =='BC%' or $field =='AC%'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatP(data,type) } } ,{/if}
         {if $field =='HP'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatHP(data,type) } } ,{/if}
@@ -27,7 +27,7 @@
     
     openHash();
     });     
-  </script>
+</script>
 {/block}
 {block #content}
      <h1 n:block="title"><a n:href="default"><img alt="" src="{$baseUri}/image/icon.png"></a>Andor's Trail Item List</h1>

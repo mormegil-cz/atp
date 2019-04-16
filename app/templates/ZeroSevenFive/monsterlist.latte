@@ -14,7 +14,7 @@
           "bFilter": false,
           "bInfo": false,
           "aoColumnDefs": [
-         {block |strip}
+         {block}
          {foreach $colums as $colum => $field} 
           {if $field =='BC%' or $field =='AC%'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatP(data,type) } } ,{/if}
           {if $field =='HP'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatHP(data,type) } } ,{/if}

@@ -12,7 +12,7 @@
         "bFilter": false,
         "bInfo": false,
         "aoColumnDefs": [
-       {block |strip}
+       {block}
        {foreach $table['fields'] as $colum => $field} 
         {if $field =='HP'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatHP(data,type) } } ,{/if}
         {if $field =='AP'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatAP(data,type) } } ,{/if}

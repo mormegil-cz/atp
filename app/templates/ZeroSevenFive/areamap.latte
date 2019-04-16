@@ -7,9 +7,11 @@
     <link rel="shortcut icon" href="{$baseUri}/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{$baseUri}/css/map.css">
     <script src="{$baseUri}/js/map.js" type="text/javascript"></script>
+    {*
     <script n:syntax="off">
         (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=+new Date;g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));ga('create','UA-56930109-1');ga('send','pageview')
     </script>
+    *}
 </head>
 <body onload="bindZoom()">
     <ul n:class="menu, ($map == 'world1')? world" id="top" n:inner-foreach="$menu as $title => $link" {if $map != 'world1'}style="min-width: {$width}px"{/if}>
