@@ -277,7 +277,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 		foreach($this->model->getCharacters()->where('spawn',array_unique($spawnIds))as $monster)
 			$monsters[$monster->spawn][] = $monster;
 
-		Debugger::barDump($monsters);
+		//Debugger::barDump($monsters);
 
 		foreach($spawns as $area) {
 			$spawnId = $area->spawn_id;

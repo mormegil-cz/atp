@@ -15,8 +15,8 @@ class CreateMapAreaFileCommand extends Command{
 	/** @var \Nette\Application\Application @inject */
 	public $app;
 
-	///** @var \Nette\Http\Session @inject */
-	//public $session;
+	/** @var \Nette\Http\Session @inject */
+	public $session;
 
 	/** @var \App\Model\Options @inject*/
 	public $options;
@@ -49,7 +49,7 @@ class CreateMapAreaFileCommand extends Command{
 	    $bar = new ProgressBar($output, $count);
 	    $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %message%');
 	    $bar->start();
-		//$this->session->getSection('render')->areaMapImages =
+		$this->session->getSection('render')->areaMapImages = true;
 	    foreach($files as $file){
 		    $bar->setMessage($file);
 		    $bar->advance();
