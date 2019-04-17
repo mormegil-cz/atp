@@ -12,3 +12,4 @@ bin/console database:importMap
 bin/console database:importDialog
 bin/console database:assignItemQuest
 bin/console database:assignNpcQuest
+bin/console map:createAll

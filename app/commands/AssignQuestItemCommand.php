@@ -44,6 +44,10 @@ class AssignItemQuestCommand extends Command{
 				if (!$this->model->getQuestsItems()->where($item)->fetch()){
 					//$item['dialog'] = $dialog->dialog;
 					if (!isset($item['quantity'])) $item['quantity'] = 0;
+					if (!$this->model->getItems()->get($dialog->requireID)) {
+						$output->writeln('<error>Unable to find ' . join(' ',$item) . '</error>');
+						continue;
+					}
 					$output->writeln(join(' ',$item));
 					$this->model->getQuestsItems()->insert($item);
 					$itemCount++;
@@ -55,6 +59,10 @@ class AssignItemQuestCommand extends Command{
 				if (!$this->model->getQuestsItems()->where($item)->fetch()){
 					//$item['dialog'] = $dialog->dialog;
 					if (!isset($item['quantity'])) $item['quantity'] = 0;
+					if (!$this->model->getItems()->get($dialog->requireID)) {
+						$output->writeln('<error>Unable to find ' . join(' ',$item) . '</error>');
+						continue;
+					}
 					$output->writeln(join(' ',$item));
 					$this->model->getQuestsItems()->insert($item);
 					$itemCount++;
@@ -66,8 +74,8 @@ class AssignItemQuestCommand extends Command{
 		$output->writeln('<comment>Importing items from reward droplist</comment>');
 
 		foreach ($this->model->getDialogRewards()->where('rewardType','dropList') as $droplist){
-			foreach($this->model->getDialogRewards()->where('rewardType','questProgress')->where('dialog',$droplist->dialog) as $quest){
-				foreach($this->model->getDroplistItems()->where('droplistID',$droplist->rewardID) as $item) {
+			foreach($this->model->getDialogRewards()->where('rewardType','questProgress')->where('dialog_id',$droplist->dialog_id) as $quest){
+				foreach($this->model->getDroplistItems()->where('droplist_id',$droplist->rewardID) as $item) {
 					$insert = ['quest_id' => $quest->rewardID, 'item_id' => $item->itemID, 'quantity' => $item->quantityMin];
 					if (!$this->model->getQuestsItems()->where($insert)->fetch()){
 						//$insert['dialog'] = $dialog->dialog;

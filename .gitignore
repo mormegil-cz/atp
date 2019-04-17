@@ -1,6 +1,7 @@
 log/*
 temp/*
 vendor/*
+render/*
 !vendor/others
 
 .DS_Store
