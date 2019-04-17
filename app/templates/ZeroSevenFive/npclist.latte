@@ -8,7 +8,7 @@
         "bInfo": false,
         "aoColumnDefs": [
        {block}
-       {foreach $table['fields'] as $colum => $field} 
+       {foreach $table['fields'] as $column => $field} 
         {if $field =='BC%' or $field =='AC%'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatP(data,type) } } ,{/if}
         {if $field =='HP'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatHP(data,type) } } ,{/if}
         {if $field =='Attack cost' or $field =='Move cost'} { "aTargets": [{$iterator->counter-1}], "mRender": function (data,type) { return formatAP(data,type) } } ,{/if}

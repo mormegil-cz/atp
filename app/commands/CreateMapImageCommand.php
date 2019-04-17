@@ -35,6 +35,7 @@ class CreateMapImageCommand extends Command{
 	    if (!$files) $files = '*.tmx';
 
 	    $outDir = $this->options->getRenderDir().'/'.$version.'/map/';
+		if (!file_exists($outDir)) mkdir($outDir, 0777, true);
 	    $inDir = $this->options->getResDir().'/'.$version.'/xml/';
 
 	    $finder = Finder::findFiles($files)->in($inDir);

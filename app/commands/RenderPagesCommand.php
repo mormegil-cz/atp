@@ -35,6 +35,7 @@ class RenderPagesCommand extends Command{
 	    if (!$pages) $pages = $this->options->getPages();
 
 	    $outDir = $this->options->renderDir.'/'.$version.'/';
+		if (!file_exists($outDir)) mkdir($outDir, 0777, true);
 
 	    $count = count($pages);
 

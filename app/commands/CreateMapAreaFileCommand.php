@@ -41,7 +41,8 @@ class CreateMapAreaFileCommand extends Command{
 			foreach($worldMap->xpath('/worldmap/segment') as $segment) $files[] = (string) $segment->attributes()['id'];
 		}
 
-	    $outDir = $this->options->renderDir.'/'.$version.'/map/';
+		$outDir = $this->options->renderDir.'/'.$version.'/map/';
+		if (!file_exists($outDir)) mkdir($outDir, 0777, true);
 
 	    $count = count($files);
 

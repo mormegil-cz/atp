@@ -102,6 +102,9 @@ class ZeroSevenFivePresenter extends BasePresenter{
 
 		$areaMap = $worldMap->xpath("/worldmap/segment[@id='$map']")[0];
 
+		$outdir = $this->options->renderDir.'/'.$this->VERSION.'/map/';
+		if (!file_exists($outdir)) mkdir($outdir, 0777, true);
+
 		$menuSubMaps = $this->model->getAreMapsArray('world1');
 		$this->template->menuSubMaps = $menuSubMaps;
 
@@ -115,7 +118,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 			$subMap->x = (intval($localMap['x']) - intval($areaMap['x']))*$scale;
 			$subMap->y = (intval($localMap['y']) - intval($areaMap['y']))*$scale;
 
-			$filename = $this->options->renderDir.'/'.$this->VERSION.'/map/'.$id.'.png';
+			$filename = $outdir . $id . '.png';
 			$image = Image::fromFile($filename);
 			$image->resize(($areaMapScale*100).'%',NULL);
 
@@ -126,7 +129,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 			if (($subMap->y + $subMap->height) > $height) $height = ($subMap->y + $subMap->height);
 
 			$render = $this->getSession('render');
-			if ($render->areaMapImages) $image->save($this->options->renderDir.'/'.$this->VERSION.'/map/'.$id.'_area.jpg', 80, Image::JPEG);
+			if ($render->offsetExists('areaMapImages') && $render->areaMapImages) $image->save($outdir. $id . '_area.jpg', 80, Image::JPEG);
 			$subMaps[$id] = $subMap;
 		}
 
@@ -156,7 +159,11 @@ class ZeroSevenFivePresenter extends BasePresenter{
 
 		if (array_key_exists($map,$menuSubMaps)) $this->forward('areamap',$map);
 
-		$this->template->mapName = $this->model->getMaps()->get($map)->name;
+		$mapdata = $this->model->getMaps()->get($map);
+		if (!$mapdata) {
+			$this->error();
+		}
+		$this->template->mapName = $mapdata->name;
 
 		$segment = $worldMap->xpath("/worldmap/segment/map[@id='".$map."']/parent::segment");
 		if ($segment) $areamap = (string) $segment[0]->attributes()['id']; else $areamap = null;
@@ -274,13 +281,13 @@ class ZeroSevenFivePresenter extends BasePresenter{
 
 		foreach($spawns as $area) {
 			$spawnId = $area->spawn_id;
-			if (!isset($monsters[$area->spawn_id])) {
-				Debugger:dump($area);
-				//print('!! No '.$area->spawn_id." monster spawn\n");
+			if (!isset($monsters[$spawnId])) {
+				Debugger::dump($area);
+				//print("!! No $spawnId monster spawn\n");
 				continue;
 			}
-			$monsterList = $monsters[$area->spawn_id];
-			$area->monster = $monsterList[array_rand($monsters[$area->spawn_id])];
+			$monsterList = $monsters[$spawnId];
+			$area->monster = $monsterList[array_rand($monsterList)];
 		}
 
 
