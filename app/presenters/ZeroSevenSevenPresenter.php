@@ -19,7 +19,7 @@ use Nette\Utils\Json;
 use Tracy\Debugger;
 
 class ZeroSevenSevenPresenter extends BasePresenter{
-	public $VERSION = '0.7.5';
+	public $VERSION = '0.7.7';
 
 	/** @var \App\Model\ZeroSevenSevenModel @inject */
 	public $model;

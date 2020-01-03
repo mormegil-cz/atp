@@ -102,7 +102,14 @@ class ImportMapCommand extends Command{
 			    'parent' => $areamap
 		    ];
 
-		    $this->model->getMaps()->insert($map);
+		    $existingMap = $this->model->getMaps()->get($mapName);
+		    if ($existingMap) {
+			    $output->writeln('');
+			    $output->writeln("Updating $mapName");
+			    $existingMap->update($map);
+		    } else {
+			     $this->model->getMaps()->insert($map);
+		    }
 
 		    foreach ($xml->xpath("/map/objectgroup/object[@type='spawn']") as $spawn){
 			    $count = $spawn->xpath("properties/property[@name='quantity']");
@@ -115,12 +122,12 @@ class ImportMapCommand extends Command{
 					$this->model->getSpawns()->insert(['id' => $spawnGroup]);
 				}
 
-			    $map = [
+			    $mapSpawn = [
 					'map' => $mapName,
 				    'spawnGroup' => $spawnGroup,
 			        'quantity' => $count
 				];
-			    $this->model->getMapSpawns()->insert($map);
+			    $this->model->getMapSpawns()->insert($mapSpawn);
 			    $itemCount++;
 		    }
 

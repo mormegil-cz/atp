@@ -488,6 +488,7 @@ CREATE TABLE `monster` (
   `movementAggressionType` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `unique` tinyint(1) unsigned DEFAULT NULL,
   `hitEffect` text COLLATE utf8_bin,
+  `hitReceivedEffect` text COLLATE utf8_bin,
   `filename` varchar(40) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `spawn` (`spawn`),

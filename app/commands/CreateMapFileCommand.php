@@ -3,6 +3,7 @@ namespace App\Console;
 
 use Nette\Utils\Finder;
 use Nette\Utils\Image;
+use Nette\Application\Responses\ForwardResponse;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -53,6 +54,12 @@ class CreateMapFileCommand extends Command{
 		    $presenter->autoCanonicalize = FALSE;
 		    $request = new \Nette\Application\Request($this->options->getVersionName($version), 'GET', array('action' => 'map','map' => $file->getBasename('.tmx')));
 		    $response = $presenter->run($request);
+		    if ($response instanceof ForwardResponse) {
+			    // var_dump($request);
+		    	// var_dump($response);
+		    	// ??
+		    	continue;
+		    }
 		    $response->getSource()->basePath = NULL;
 		    $html = (string) $response->getSource();
 		    file_put_contents($outDir.$file->getBasename('.tmx').'.html',$html);
