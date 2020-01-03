@@ -24,7 +24,7 @@ class ZeroSevenFivePresenter extends BasePresenter{
 	/** @var \App\Model\ZeroSevenFiveModel @inject */
 	public $model;
 
-	/** @var \App\Model\ZeroSevenZeroTableModel @inject */
+	/** @var \App\Model\ZeroSevenFiveTableModel @inject */
 	public $tableModel;
 
 	public function beforeRender(){

@@ -28,6 +28,7 @@ parameters:
 	version:
 		0.7.0: ZeroSevenZero
 		0.7.5: ZeroSevenFive
+		0.7.7: ZeroSevenSeven
 
 php:
 	date.timezone: Europe/Prague
@@ -48,6 +49,13 @@ database:
 		reflection: discovered
 		autowired:  false
 
+	0.7.7:
+		dsn:        "%database.driver%:host=%database.host%;dbname=at077"
+		user:       %database.user%
+		password:   %database.password%
+		reflection: discovered
+		autowired:  false
+
 
 application:
 	errorPresenter: Error
@@ -63,9 +71,11 @@ services:
 
 	- App\Model\ZeroSevenZeroModel(@database.0.7.0.context)
 	- App\Model\ZeroSevenFiveModel(@database.0.7.5.context)
+	- App\Model\ZeroSevenSevenModel(@database.0.7.7.context)
 
 	- App\Model\ZeroSevenZeroTableModel
 	- App\Model\ZeroSevenFiveTableModel
+	- App\Model\ZeroSevenSevenTableModel
 
 	- App\Model\Options(%menu%,%version%,%resDir%,%renderDir%,%wwwDir%)
 
