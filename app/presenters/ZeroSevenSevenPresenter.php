@@ -282,7 +282,7 @@ class ZeroSevenSevenPresenter extends BasePresenter{
 		foreach($spawns as $area) {
 			$spawnId = $area->spawn_id;
 			if (!isset($monsters[$spawnId])) {
-				Debugger::dump($area);
+				//Debugger::dump($area);
 				//print("!! No $spawnId monster spawn\n");
 				continue;
 			}
